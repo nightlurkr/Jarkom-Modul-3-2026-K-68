@@ -3749,7 +3749,23 @@ Penting untuk membedakan antara **kegagalan yang dilaporkan `ab`** dan **kegagal
 │   │   └── setup-db.sh               MariaDB master, user remote, skema
 │   ├── inumaki/
 │   │   └── setup-db.sh               MariaDB slave, penyambungan otomatis
-│   ├── interfaces/                   berkas interfaces 12 host infrastruktur
+│   ├── gojo/
+│   │   └── setup-gojo.sh             Nginx reverse proxy, cache, rate limit
+│   ├── geto/
+│   │   └── setup-geto.sh             Nginx load balancer, real_ip, upstream backup
+│   ├── maki/
+│   │   └── setup-web.sh              Nginx + PHP-FPM frontend
+│   ├── panda/
+│   │   └── setup-web.sh              Nginx + PHP-FPM frontend
+│   ├── nanami/
+│   │   └── setup-api.sh              Nginx + PHP-FPM API endpoint
+│   ├── todo/
+│   │   └── setup-api.sh              Nginx + PHP-FPM API endpoint
+│   ├── kirara/
+│   │   └── setup-api.sh              Nginx + PHP-FPM API endpoint (backup)
+│   ├── kusakabe/
+│   │   └── setup-ab.sh               apache2-utils dan entri /etc/hosts
+│   ├── interfaces/                   berkas interfaces 13 host infrastruktur
 │   │   ├── utahime.txt
 │   │   ├── shoko.txt
 │   │   ├── gojo.txt
@@ -3761,11 +3777,60 @@ Penting untuk membedakan antara **kegagalan yang dilaporkan `ab`** dan **kegagal
 │   │   ├── kirara.txt
 │   │   ├── yaga.txt
 │   │   ├── inumaki.txt
-│   │   └── tengen.txt
+│   │   ├── tengen.txt
+│   │   └── kusakabe.txt
 │   └── clients/
 │       └── interfaces-alpinet.txt    dipakai 8 client, isinya dhcp
 └── screenshot/
-    └── soalNN-deskripsi.png          bukti pengerjaan setiap soal
+    ├── soal01-deskripsi.png          bukti soal 1
+    ├── ...
+    ├── soal13-deskripsi.png          bukti soal 13
+    ├── soal14-maki-nginx.png         bukti soal 14
+    ├── soal14-gojo-maki.png
+    ├── soal14-gojo-panda.png
+    ├── soal14-itadori-panda-403.png
+    ├── soal14-geto-lynx.png
+    ├── soal14-geto-curl.png
+    ├── soal14-yaga-tabel.png
+    ├── soal14-maki-interfaces.png
+    ├── soal14-todo-interfaces.png
+    ├── soal15-geto-config.png        bukti soal 15
+    ├── soal15-maki-rasio.png
+    ├── soal15-maki-urutan.png
+    ├── soal15-yaga-rasio.png
+    ├── soal15-geto-interfaces.png
+    ├── soal16-gojo-config.png        bukti soal 16
+    ├── soal16-dig-itadori.png
+    ├── soal16-dig-ino.png
+    ├── soal16-web-itadori.png
+    ├── soal16-web-ino.png
+    ├── soal16-api-client.png
+    ├── soal16-forbidden-ino.png
+    ├── soal16-forbidden-ino-api.png
+    ├── soal16-gojo-interfaces.png
+    ├── soal17-geto-config.png        bukti soal 17
+    ├── soal17-itadori-normal.png
+    ├── soal17-ino-normal.png
+    ├── soal17-header-palsu.png
+    ├── soal17-database.png
+    ├── soal18-kirara-cek.png         bukti soal 18
+    ├── soal18-geto-upstream.png
+    ├── soal18-normal.png
+    ├── soal18-nanami-mati.png
+    ├── soal18-todo-mati.png
+    ├── soal18-failover.png
+    ├── soal18-pulih.png
+    ├── soal19-nginx-conf.png         bukti soal 19
+    ├── soal19-gojo-config.png
+    ├── soal19-cache.png
+    ├── soal19-ratelimit.png
+    ├── soal20-ab-install.png         bukti soal 20
+    ├── soal20-hosts.png
+    ├── soal20-baseline-1.png
+    ├── soal20-baseline-2.png
+    ├── soal20-ratelimit-1.png
+    ├── soal20-ratelimit-2.png
+    └── soal20-access-log.png
 ```
 
 ### Urutan Menjalankan dari Keadaan Kosong
