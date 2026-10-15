@@ -3848,5 +3848,24 @@ Apabila seluruh node baru dinyalakan dan belum ada autostart terpasang, urutanny
 | 7 | yaga | `bash /root/setup-db.sh` |
 | 8 | inumaki | `bash /root/setup-db.sh` |
 | 9 | 8 client | `udhcpc -i eth0 -n` |
+| 10 | maki, panda | `bash /root/setup-web.sh` |
+| 11 | nanami, todo, kirara | `bash /root/setup-api.sh` |
+| 12 | gojo | `bash /root/setup-gojo.sh` |
+| 13 | geto | `bash /root/setup-geto.sh` |
+| 14 | kusakabe | `bash /root/setup-ab.sh` |
 
-Dengan autostart yang sudah terpasang pada `jichi`, `tengen`, `utahime`, `shoko`, `yaga`, dan `inumaki`, seluruh langkah 1 sampai 8 berjalan sendiri. Setelah node dinyalakan, cukup tunggu dua sampai tiga menit sampai proses install selesai, lalu client diminta mengambil alamat.
+Urutan langkah 1 sampai 9 harus dijalankan lebih dulu, karena worker dan proxy pada soal 14 sampai 20 bergantung pada layanan yang dibangun pada soal 1 sampai 13:
+
+- **DNS** dari utahime dan shoko dipakai untuk resolusi domain `jujutsu.K68.com`.
+- **Database** dari yaga dan inumaki dipakai oleh worker API untuk mencatat log request.
+- **DHCP** dari tengen memastikan client Network 2 dan Network 3 memperoleh alamat dan DNS yang benar sebelum melakukan request.
+
+Setelah langkah 1 sampai 9 selesai, barulah langkah 10 sampai 14 dijalankan untuk membangun lapisan aplikasi:
+
+- Langkah 10 menyiapkan worker frontend (maki, panda) yang akan melayani path `/` lewat gojo.
+- Langkah 11 menyiapkan worker API (nanami, todo, kirara) yang akan melayani path `/api` lewat geto.
+- Langkah 12 menyiapkan gojo sebagai public reverse proxy yang menerima request dari client.
+- Langkah 13 menyiapkan geto sebagai internal load balancer antara gojo dan worker API.
+- Langkah 14 menyiapkan Apache Benchmark pada kusakabe untuk keperluan audit.
+
+Dengan autostart yang sudah terpasang pada `jichi`, `tengen`, `utahime`, `shoko`, `yaga`, `inumaki`, `gojo`, `geto`, `maki`, `panda`, `nanami`, `todo`, `kirara`, dan `kusakabe`, seluruh langkah 1 sampai 14 berjalan sendiri. Setelah node dinyalakan, cukup tunggu dua sampai tiga menit sampai proses install selesai, lalu client diminta mengambil alamat.
