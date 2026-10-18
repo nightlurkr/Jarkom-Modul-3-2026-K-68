@@ -3137,6 +3137,21 @@ Respons pertama setelah nanami dan todo dimatikan bisa gagal atau lambat, karena
 
 Setelah nanami dan todo dihidupkan kembali, Nginx mencoba lagi ke kedua server itu pada siklus berikutnya setelah `fail_timeout=5s` berlalu. Kalau server merespons, Nginx mengembalikannya ke rotasi. Karena itu, uji pemulihan sebaiknya dilakukan setelah menunggu sekitar 5–10 detik dari saat nanami dan todo dinyalakan.
 
+### Revisi Soal 18 (Failover Server Cadangan)
+
+Saat dilakukan pengujian ulang, error `502 Bad Gateway` sempat muncul. Hal ini disebabkan oleh sifat *stateless* pada node GNS3/Docker. Ketika server di-restart, konfigurasi di dalam `/etc/nginx/sites-available/geto` ikut ter-reset dan kembali ke konfigurasi Soal 15 (tanpa server backup). 
+
+Konfigurasi `upstream api_cluster` pada `geto` diperbaiki dengan menambahkan kembali `kirara` sebagai server `backup` beserta parameter *passive health check*.
+
+**1. Konfigurasi `api_cluster` sebelum diperbaiki (kirara belum masuk):**
+![Soal 18 Revisi Belum Masuk](screenshot/soal18-revisi-belum-masuk.png)
+
+**2. Proses menambahkan konfigurasi kirara ke dalam `api_cluster`:**
+![Soal 18 Revisi Edit Nano](screenshot/soal18-revisi-edit-nano.png)
+
+**3. Pengujian setelah perbaikan (request dialihkan ke kirara):**
+![Soal 18 Revisi Fix](screenshot/soal18-revisi-fix.png)
+
 ---
 
 ## Soal 19: Proxy Caching dan Rate Limiting di gojo
@@ -3388,6 +3403,21 @@ Apabila ingin hasil yang lebih dekat ke 10, `burst` dapat dinaikkan menjadi `bur
 Header `X-Cache-Status` hanya muncul pada respons halaman web (path `/`), bukan pada respons API (path `/api`), karena direktif `add_header` hanya dipasang pada `location /`.
 
 Cache dan rate limit berada di lokasi yang berbeda dan tidak saling memengaruhi. Cache bekerja pada `location /`, sementara rate limit bekerja pada `location /api`. Keduanya dapat diuji secara terpisah, dan itu yang dilakukan pada soal ini.
+
+### Revisi Soal 19 (Rate Limiting)
+
+Saat dilakukan pengujian ulang setelah server di-restart, rate limiting sempat tidak berfungsi (semua request dibalas `200`). Sama seperti Soal 18, hal ini disebabkan oleh sifat *stateless* pada GNS3/Docker. Konfigurasi di `nginx.conf` dan vhost `gojo` ter-reset kembali ke kondisi sebelum Soal 19 diterapkan. 
+
+Konfigurasi pun diperbaiki dengan memasukkan kembali parameter `limit_req_zone` dan blok `limit_req` pada `location /api`.
+
+**1. Konfigurasi zona rate limit pada `nginx.conf`:**
+![Soal 19 Revisi Nano Gojo](screenshot/soal19-revisi-nano-gojo.png)
+
+**2. Konfigurasi penerapan rate limit pada `location /api` di vhost gojo:**
+![Soal 19 Revisi Location Api](screenshot/soal19-revisi-location-api.png)
+
+**3. Pengujian rate limit dari itadori setelah perbaikan (muncul status 429):**
+![Soal 19 Revisi Itadori Ratelimit](screenshot/soal19-revisi-itadori-ratelimit.png)
 
 ---
 
